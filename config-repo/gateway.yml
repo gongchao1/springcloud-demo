@@ -1,0 +1,45 @@
+server:
+  port: 8060
+
+management:
+  security:
+    enabled: false
+
+hystrix:
+  command:
+    default:
+      execution:
+        isolation:
+          thread:
+            timeoutInMilliseconds: 20000
+
+ribbon:
+  ReadTimeout: 10000
+  ConnectTimeout: 10000
+
+zuul:
+  ignoredServices: '*'
+  routes:
+    auth-service:
+      path: /api-auth/**
+      stripPrefix: false
+      sensitiveHeaders:
+    svca-service:
+      path: /svca/**
+      sensitiveHeaders:
+    svcb-service:
+      path: /svcb/**
+      sensitiveHeaders:
+  add-proxy-headers: true
+
+security:
+  oauth2:
+    client:
+      #指定获取access token的URI.
+      access-token-uri: http://${authserver.hostname}:${authserver.port}${authserver.contextPath}/oauth/token
+      #用户跳转去获取access token的URI.
+      user-authorization-uri: http://${authserver.hostname}:${authserver.port}${authserver.contextPath}/oauth/authorize
+      client-id: gateway
+
+
+

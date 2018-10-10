@@ -1,0 +1,23 @@
+server:
+  port: 8080
+
+name: wangheduo
+
+eureka:
+  instance:
+    #自定义元数据信息(配置用户名密码)
+    metadata-map:
+      user.name: ${security.user.name}
+      user.password: ${security.user.password}
+
+#security:
+#  user:
+#    name: user
+#    password: password
+#
+#  oauth2:
+#    client:
+#      client-id: svca-service
+#      access-token-uri: http://${authserver.hostname}:${authserver.port}${authserver.contextPath}/oauth/token
+#      user-authorization-uri: http://${authserver.hostname}:${authserver.port}${authserver.contextPath}/oauth/authorize
+#      grant-type: client_credentials

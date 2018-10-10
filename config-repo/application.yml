@@ -1,0 +1,50 @@
+eureka:
+  instance:
+    hostname: registry
+    prefer-ip-address: true
+  client:
+    service-url:
+      defaultZone: http://user:${REGISTRY_SERVER_PASSWORD:password}@registry:8761/eureka/
+
+hystrix:
+  command:
+    default:
+      execution:
+        isolation:
+          thread:
+            timeoutInMilliseconds: 10000
+
+ribbon:
+  ReadTimeout: 5000
+  ConnectTimeout: 5000
+
+spring:
+  rabbitmq:
+    host: localhost
+    port: 5672
+    username: guest
+    password: guest
+
+  #sleuth为SpringCloud应用实现了一种分布式追踪解决方案，其兼容了Zipkin, HTrace和log-based追踪
+  sleuth:
+    sampler:
+      percentage: 1
+    integration:
+      enabled: false
+    #设置spring.sleuth.scheduled.skipPattern为一个指定的表达式，
+    #这将匹配@Scheduled注解类的完整描述名称。
+    scheduled:
+      skip-pattern: "^org.*HystrixStreamTask$"
+
+
+authserver:
+    hostname: auth-service
+    port: 5000
+    contextPath: /api-auth
+
+security:
+  oauth2:
+    resource:
+      user-info-uri: http://${authserver.hostname}:${authserver.port}${authserver.contextPath}/user
+      prefer-token-info: false
+

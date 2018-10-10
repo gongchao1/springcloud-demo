@@ -1,0 +1,25 @@
+server:
+  port: 8761
+
+eureka:
+  instance:
+    hostname: registry
+    prefer-ip-address: true
+  #配置不注册本身注册以及信息拉取
+  client:
+    registerWithEureka: false
+    fetchRegistry: false
+    #注册中心地址，其他程序通过次URL进行注册
+    service-url:
+      defaultZone: http://${security.user.name}:${security.user.password}@${eureka.instance.hostname}:${server.port}/eureka/
+  server:
+    #是否打开自我保护，如果设置为true，很容易会出现红色字体的自我保护提示，不方便测试
+    enable-self-preservation: false
+    #清理时间，默认是60*1000毫秒，修改短一点，保证开发时，客户端失效后，能够快速剔除客户端
+    eviction-interval-timer-in-ms: 10000
+
+
+security:
+  user:
+    name: user
+    password: ${REGISTRY_SERVER_PASSWORD:password}

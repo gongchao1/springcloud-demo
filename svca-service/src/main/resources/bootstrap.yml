@@ -1,0 +1,23 @@
+spring:
+  application:
+    name: svca-service
+  cloud:
+    config:
+      uri: http://config:8888
+      fail-fast: true
+      username: user
+      password: ${CONFIG_SERVER_PASSWORD:password}
+      retry:
+        initial-interval: 2000
+        max-interval: 10000
+        multiplier: 2
+        max-attempts: 10
+#开启熔断
+feign:
+  hystrix:
+    enabled: true
+
+#在SpringBoot中management.security.enabled默认状态为true，这样就会导致用户在访问时受限，关闭让monitor系统收集信息
+management:
+  security:
+    enabled: false
